@@ -1,18 +1,19 @@
 package praktikum.order;
 
-import org.junit.Before;
-import org.junit.Test;
-import praktikum.user.UserData;
-import praktikum.user.UserSteps;
+import io.qameta.allure.*;
+import org.junit.*;
+import praktikum.user.*;
+import io.qameta.allure.junit4.DisplayName;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Feature("Получение заказов пользователя: Негативные тесты")
 public class OrderForUserNegativeTest {
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
-    private UserSteps userSteps = new UserSteps();
-    private UserData userData = new UserData();
+//    private UserSteps userSteps = new UserSteps();
+//    private UserData userData = new UserData();
 
     String bunId;
     String mainId;
@@ -31,8 +32,9 @@ public class OrderForUserNegativeTest {
         orderSteps.createOrder(order).checkCreateOrder();
     }
 
-    // Проверяем, что нельзя получить список заказов пользователя без авторизации
     @Test
+    @DisplayName("Невозможно получить заказы пользователя без авторизации")
+    @Description("Проверка, что API возвращает ошибку 401 при попытке получить список заказов без авторизации")
     public void testGetOrderForUserUnauthorized() {
         orderSteps.getOrderForUser().checkNegativeGetOrderForUserWithoutToken();
     }

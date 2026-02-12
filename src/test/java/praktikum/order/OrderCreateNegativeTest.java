@@ -1,26 +1,24 @@
 package praktikum.order;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import praktikum.user.UserData;
-import praktikum.user.UserRegisterRequest;
-import praktikum.user.UserSteps;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
+import praktikum.user.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-//Негативные тесты для создания заказа
+
+@Feature("Создание заказа: Негативные тесты")
 public class OrderCreateNegativeTest {
 
     private String accessToken;
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
     private UserSteps userSteps = new UserSteps();
-    private UserData userData = new UserData();
-    String email = userData.email;
-    String password = userData.password;
-    String name = userData.name;
+//    private final UserData userData = new UserData();
+    String email = UserData.EMAIL;
+    String password = UserData.PASSWORD;
+    String name = UserData.NAME;
     String bunId;
     String mainId;
     String sauceId;
@@ -40,6 +38,8 @@ public class OrderCreateNegativeTest {
 
     // Проверяем, что нельзя создать заказ без ингредиентов
     @Test
+    @DisplayName("Невозможно создать заказ без ингредиентов")
+    @Description("Проверка, что API возвращает ошибку при попытке создать заказ без указания ингредиентов")
     public void testCreateOrderWithoutIngredient() {
         OrderCreateRequest order = new OrderCreateRequest();
         orderSteps.createOrder(order).checkNegativeCreateOrderWithoutIngredient();
@@ -47,6 +47,8 @@ public class OrderCreateNegativeTest {
 
     // Проверяем, что нельзя создать заказ с невалидным id ингредиента
     @Test
+    @DisplayName("Невозможно создать заказ с невалидным id ингредиента")
+    @Description("Проверка, что API возвращает ошибку при попытке создать заказ, содержащий ингредиент с несуществующим ID")
     public void testCreateOrderWithInvalidIngredientId() {
         OrderCreateRequest order = new OrderCreateRequest(ingredients);
         orderSteps.createOrder(order).checkNegativeCreateOrderWithInvalidIngredientId();

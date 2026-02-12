@@ -1,26 +1,24 @@
 package praktikum.order;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import praktikum.user.UserData;
-import praktikum.user.UserRegisterRequest;
-import praktikum.user.UserSteps;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
+import praktikum.user.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-// Позитивные тесты для создания заказа
+@Feature("Создание заказа: Позитивные тесты")
 public class OrderCreatePositiveTest {
 
     private String accessToken;
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
     private UserSteps userSteps = new UserSteps();
-    private UserData userData = new UserData();
-    String email = userData.email;
-    String password = userData.password;
-    String name = userData.name;
+//    private UserData userData = new UserData();
+    String email = UserData.EMAIL;
+    String password = UserData.PASSWORD;
+    String name = UserData.NAME;
     String bunId;
     String mainId;
     String sauceId;
@@ -38,15 +36,17 @@ public class OrderCreatePositiveTest {
         ingredients = Arrays.asList(bunId, mainId, sauceId);
     }
 
-    // Проверяем создание заказа авторизованным пользователем
     @Test
+    @DisplayName("Авторизованный пользователь может создать заказ")
+    @Description("Проверка, что авторизованный пользователь может успешно создать заказ с валидными ингредиентами")
     public void testCreateOrder() {
         OrderCreateRequest order = new OrderCreateRequest(ingredients);
         orderSteps.createOrder(order, accessToken).checkCreateOrder();
     }
 
-    // Проверяем создание заказа без авторизации
     @Test
+    @DisplayName("Неавторизованный пользователь может создать заказ")
+    @Description("Проверка, что пользователь без авторизации может успешно создать заказ с валидными ингредиентами")
     public void testCreateOrderUnauthorized() {
         OrderCreateRequest order = new OrderCreateRequest(ingredients);
         orderSteps.createOrder(order).checkCreateOrder();

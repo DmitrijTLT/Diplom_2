@@ -1,24 +1,22 @@
 package praktikum.order;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import praktikum.user.UserData;
-import praktikum.user.UserRegisterRequest;
-import praktikum.user.UserSteps;
+import io.qameta.allure.*;
+import org.junit.*;
+import praktikum.user.*;
+import io.qameta.allure.junit4.DisplayName;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+@Feature("Получение заказов пользователя: Позитивные тесты")
 public class OrderForUserPositiveTest {
     private String accessToken;
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
     private UserSteps userSteps = new UserSteps();
-    private UserData userData = new UserData();
-    String email = userData.email;
-    String password = userData.password;
-    String name = userData.name;
+//    private UserData userData = new UserData();
+    String email = UserData.EMAIL;
+    String password = UserData.PASSWORD;
+    String name = UserData.NAME;
     String bunId;
     String mainId;
     String sauceId;
@@ -39,8 +37,9 @@ public class OrderForUserPositiveTest {
         orderSteps.createOrder(order, accessToken);
     }
 
-    // Проверяем, что можно получить список заказов авторизованного пользователя
     @Test
+    @DisplayName("Авторизованный пользователь может получить свои заказы")
+    @Description("Проверка, что авторизованный пользователь может успешно получить список своих заказов через API")
     public void getOrderForUser() {
         orderSteps.getOrderForUser(accessToken).checkGetOrderForUser();
     }

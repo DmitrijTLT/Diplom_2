@@ -1,49 +1,54 @@
 package praktikum.user;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
 
-// Негативные тесты для проверки авторизации пользователя
+
+@Feature("Авторизация пользователя: Негативные тесты")
 public class UserLoginNegativeTest {
 
     public String accessToken;
 
     private UserSteps steps = new UserSteps();
-    private UserData userData = new UserData();
+//    private UserData userData = new UserData();
 
     // Регистрируем нового пользователя и получаем его токен
     @Before
     public void setUp() {
-        UserRegisterRequest user =new UserRegisterRequest(userData.email, userData.password, userData.name);
+        UserRegisterRequest user =new UserRegisterRequest(UserData.EMAIL, UserData.PASSWORD, UserData.NAME);
         accessToken = steps.registerUser(user).checkRegisterUser();
     }
 
-    // Проверяем, что нельзя авторизоваться с неправильным паролем
     @Test
+    @DisplayName("Нельзя авторизоваться с неправильным паролем")
+    @Description("Проверка, что API возвращает ошибку 401 при вводе неверного пароля, даже если email корректный")
     public void testUserLoginWithInvalidPassword() {
-        UserLoginRequest user = new UserLoginRequest(userData.email, "invalid");
+        UserLoginRequest user = new UserLoginRequest(UserData.EMAIL, "invalid");
         steps.loginUser(user, accessToken).checkNegativeLoginUser();
     }
 
-    // Проверяем, что нельзя авторизоваться  с несуществующим email
     @Test
+    @DisplayName("Нельзя авторизоваться с email, которого нет в системе")
+    @Description("Проверка, что API возвращает ошибку 401 при попытке входа с несуществующим email")
     public void testUserLoginWithEmailInNotSystem() {
-        UserLoginRequest user = new UserLoginRequest("m@m.mm", userData.password);
+        UserLoginRequest user = new UserLoginRequest(UserData.NEW_EMAIL, UserData.PASSWORD);
         steps.loginUser(user, accessToken).checkNegativeLoginUser();
     }
 
-    // Проверяем, что нельзя авторизоваться с пустым email
     @Test
+    @DisplayName("Нельзя авторизоваться с пустым email")
+    @Description("Проверка, что API возвращает ошибку 401 при передаче null в поле email")
     public void testUserLoginWithEmptyEmail() {
-        UserLoginRequest user = new UserLoginRequest(null, userData.password);
+        UserLoginRequest user = new UserLoginRequest(null, UserData.PASSWORD);
         steps.loginUser(user, accessToken).checkNegativeLoginUser();
     }
 
-    // Проверяем, что нельзя авторизоваться с пустым паролем
     @Test
+    @DisplayName("Нельзя авторизоваться с пустым паролем")
+    @Description("Проверка, что API возвращает ошибку 401 при передаче null в поле password")
     public void testUserLoginWithEmptyPassword() {
-        UserLoginRequest user = new UserLoginRequest(userData.email, null);
+        UserLoginRequest user = new UserLoginRequest(UserData.EMAIL, null);
         steps.loginUser(user, accessToken).checkNegativeLoginUser();
     }
 

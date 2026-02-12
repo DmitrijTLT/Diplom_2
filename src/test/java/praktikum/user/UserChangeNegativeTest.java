@@ -1,22 +1,22 @@
 package praktikum.user;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
 
-// Негативные тесты для проверки изменения данных пользователя
+@Feature("Изменение данных пользователя: Негативные тесты")
 public class UserChangeNegativeTest {
 
     private UserSteps steps = new UserSteps();
-    private UserData userData = new UserData();
+//    private UserData userData = new UserData();
 
     public String accessTokenOne;
     public String accessTokenTwo;
-    String email = userData.email;
-    String newEmail = userData.newEmail;
-    String password = userData.password;
-    String name = userData.name;
-    String newName = userData.newName;
+    String email = UserData.EMAIL;
+    String newEmail = UserData.NEW_EMAIL;
+    String password = UserData.PASSWORD;
+    String name = UserData.NAME;
+    String newName = UserData.NEW_NAME;
 
     // Регистрируем нового пользователя и получаем его токен
     @Before
@@ -25,15 +25,17 @@ public class UserChangeNegativeTest {
         accessTokenOne = steps.registerUser(userOne).checkRegisterUser();
     }
 
-    // Проверяем, что нельзя изменить данные пользователя без авторизации
     @Test
+    @DisplayName("Нельзя изменить данные пользователя без авторизации")
+    @Description("Проверка, что API возвращает ошибку 401 при попытке изменения профиля без авторизации")
     public void testUserChangeUnauthorized() {
         UserChangeRequest user = new UserChangeRequest(newEmail, newName);
         steps.changeUser(user).checkChangeUserUnauthorized();
     }
 
-    // Проверяем, что нельзя изменить email пользователя, если передать email, который уже используется
     @Test
+    @DisplayName("Нельзя изменить email на уже занятый другим пользователем")
+    @Description("Проверка, что API возвращает ошибку 403 при попытке установить email, который уже используется другим аккаунтом")
     public void testUserChangeWithEmailAlreadyExists() {
         UserRegisterRequest userTwo = new UserRegisterRequest(newEmail, password, name);
         accessTokenTwo = steps.registerUser(userTwo).checkRegisterUserTwo();

@@ -1,5 +1,6 @@
 package praktikum.order;
 
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
 import java.util.List;
@@ -16,19 +17,20 @@ public class OrderSteps {
     String messageErrorCreateOrder = "Ingredient ids must be provided";
     String messageNotAuth = "You should be authorised";
 
-    // Создание заказа с токеном
+    @Step("Создание заказа с токеном")
     public OrderSteps createOrder(OrderCreateRequest order, String token) {
         response = orderApi.createOrder(order, token).then();
         return this;
     }
 
     // Создание заказа без токена (для проверки 401)
+    @Step("Создание заказа без токена (для проверки 401)")
     public OrderSteps createOrder(OrderCreateRequest order) {
         response = orderApi.createOrder(order).then();
         return this;
     }
 
-    // Проверка успешного создания заказа
+    @Step("Проверка успешного создания заказа")
     public OrderSteps checkCreateOrder() {
         response.assertThat().statusCode(SC_OK);
         OrderCreateResponse orderCreateResponseFromApi = response.extract().body().as(OrderCreateResponse.class);
@@ -39,7 +41,7 @@ public class OrderSteps {
         return this;
     }
 
-    // Проверка неуспешного создания заказа с невалидным хеш ингредиента
+    @Step("Проверка неуспешного создания заказа с невалидным хеш ингредиента")
     public OrderSteps checkNegativeCreateOrderWithInvalidIngredientId() {
        response.assertThat().statusCode(SC_INTERNAL_SERVER_ERROR);
        OrderErrorResponse orderErrorResponseFromApi = response.extract().body().as(OrderErrorResponse.class);
@@ -48,7 +50,7 @@ public class OrderSteps {
        return this;
     }
 
-    // Проверка неуспешного создания заказа с невалидным хеш ингредиента
+    @Step("Проверка неуспешного создания заказа с невалидным хеш ингредиента")
     public OrderSteps checkNegativeCreateOrderWithoutIngredient() {
         response.assertThat().statusCode(SC_BAD_REQUEST);
         OrderErrorResponse orderErrorResponseFromApi = response.extract().body().as(OrderErrorResponse.class);
@@ -57,13 +59,13 @@ public class OrderSteps {
         return this;
     }
 
-    // Получение списка ингрединетов
+    @Step("Получение списка ингрединетов")
     public OrderSteps getAllIngredients() {
         response = orderApi.getAllIngedients().then();
         return this;
     }
 
-    // Проверка получения списка ингредиентов
+    @Step("Проверка получения списка ингредиентов")
     public OrderSteps checkGetAllIngredients() {
         response.assertThat().statusCode(SC_OK);
         IngredientsResponse ingredientsResponseFromApi = response.extract().body().as(IngredientsResponse.class);
@@ -88,7 +90,7 @@ public class OrderSteps {
         return this;
     }
 
-    // Получаем id первой булки в списке ингредиентов
+    @Step("Получаем id первой булки в списке ингредиентов")
     public String getFirstBunId() {
         IngredientsResponse ingredientsResponseFromApi = response.extract().body().as(IngredientsResponse.class);
         return ingredientsResponseFromApi.getData().stream()
@@ -98,7 +100,7 @@ public class OrderSteps {
                 .orElseThrow(() -> new RuntimeException("Булка не найдена в списке ингредиентов"));
     }
 
-    // Получаем id первой начинки в списке ингредиентов
+    @Step("Получаем id первой начинки в списке ингредиентов")
     public String getFirstMainId() {
         IngredientsResponse ingredientsResponseFromApi = response.extract().body().as(IngredientsResponse.class);
         return ingredientsResponseFromApi.getData().stream()
@@ -108,7 +110,7 @@ public class OrderSteps {
                 .orElseThrow(() -> new RuntimeException("Начинка не найдена в списке ингредиентов"));
     }
 
-    // Получаем id первого соуса в списке ингредиентов
+    @Step("Получаем id первого соуса в списке ингредиентов")
     public String getFirstSauceId() {
         IngredientsResponse ingredientsResponseFromApi = response.extract().body().as(IngredientsResponse.class);
         return ingredientsResponseFromApi.getData().stream()
@@ -118,19 +120,19 @@ public class OrderSteps {
                 .orElseThrow(() -> new RuntimeException("Соус не найден в списке ингредиентов"));
     }
 
-    // Получение заказа пользователя с токеном
+    @Step("Получение заказа пользователя с токеном")
     public OrderSteps getOrderForUser(String token) {
         response = orderApi.getOrdersForUser(token).then();
         return this;
     }
 
-    // Получение заказа пользователя без токеном
+    @Step("Получение заказа пользователя без токеном")
     public OrderSteps getOrderForUser() {
         response = orderApi.getOrdersForUser().then();
         return this;
     }
 
-    // Проверка неуспешного получения заказов для пользователя без авторизации
+    @Step("Проверка неуспешного получения заказов для пользователя без авторизации")
     public OrderSteps checkNegativeGetOrderForUserWithoutToken() {
         response.assertThat().statusCode(SC_UNAUTHORIZED);
         OrderErrorResponse orderErrorResponseFromApi = response.extract().body().as(OrderErrorResponse.class);
@@ -139,7 +141,7 @@ public class OrderSteps {
         return this;
     }
 
-    // Проверка успешного получения заказов для пользователя
+    @Step("Проверка успешного получения заказов для пользователя")
     public OrderSteps checkGetOrderForUser() {
         response.assertThat().statusCode(SC_OK);
         OrderUserResponse orderUserResponseFromApi = response.extract().body().as(OrderUserResponse.class);

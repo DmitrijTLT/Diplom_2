@@ -1,21 +1,21 @@
 package praktikum.user;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
 
-// Позитивные тесты для проверки изменения данных пользователя
+@Feature("Изменение данных пользователя: Позитивные тесты")
 public class UserChangePositiveTest {
 
     private UserSteps steps = new UserSteps();
-    private UserData userData = new UserData();
+//    private UserData userData = new UserData();
 
     public String accessToken;
-    String email = userData.email;
-    String newEmail = userData.newEmail;
-    String password = userData.password;
-    String name = userData.name;
-    String newName = userData.newName;
+    String email = UserData.EMAIL;
+    String newEmail = UserData.NEW_EMAIL;
+    String password = UserData.PASSWORD;
+    String name = UserData.NAME;
+    String newName = UserData.NEW_NAME;
 
     // Регистрируем нового пользователя и получаем его токен
     @Before
@@ -24,22 +24,25 @@ public class UserChangePositiveTest {
         accessToken = steps.registerUser(user).checkRegisterUser();
     }
 
-    // Проверяем успешное изменение пользователя с изменением email и name
     @Test
+    @DisplayName("Пользователь может изменить email и имя одновременно")
+    @Description("Проверка успешного обновления email и имени авторизованным пользователем. Ожидается код 200 и возврат обновлённых данных")
     public void testUserChange() {
         UserChangeRequest user = new UserChangeRequest(newEmail, newName);
         steps.changeUser(user, accessToken).checkChangeUser(newEmail, newName);
     }
 
-    // Проверяем успешное изменение пользователя с изменением только email
     @Test
+    @DisplayName("Пользователь может изменить только email")
+    @Description("Проверка, что пользователь может обновить только email, оставив имя без изменений. Ожидается код 200 и возврат обновлённых данных")
     public void testUserChangeOnlyEmail() {
         UserChangeRequest user = new UserChangeRequest(newEmail, null);
         steps.changeUser(user, accessToken).checkChangeUser(newEmail, name);
     }
 
-    // Проверяем успешное изменение пользователя с изменением только name
     @Test
+    @DisplayName("Пользователь может изменить только имя")
+    @Description("Проверка, что пользователь может обновить только имя, оставив email без изменений. Ожидается код 200 и возврат обновлённых данных")
     public void testUserChangeOnlyName() {
         UserChangeRequest user = new UserChangeRequest(null, newName);
         steps.changeUser(user, accessToken).checkChangeUser(email, newName);

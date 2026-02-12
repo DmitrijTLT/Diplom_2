@@ -1,20 +1,22 @@
 package praktikum.user;
 
-import org.junit.After;
-import org.junit.Test;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.*;
 
-// Позитивные тесты для проверки регистрации пользователя
+@Feature("Регистрация пользователя: Позитивные тесты")
 public class UserRegisterPositiveTest {
 
     public String accessToken;
 
     private UserSteps steps = new UserSteps();
-    private UserData userData = new UserData();
+//    private UserData userData = new UserData();
 
-    // Проверяем успешную регистрацию с валидными данными
     @Test
+    @DisplayName("Пользователь может зарегистрироваться с валидными данными")
+    @Description("Проверка успешной регистрации пользователя с корректным email, паролем и именем. Ожидается код 200 и получение токена")
     public void testUserRegister() {
-        UserRegisterRequest user = new UserRegisterRequest(userData.email, userData.password, userData.name);
+        UserRegisterRequest user = new UserRegisterRequest(UserData.EMAIL, UserData.PASSWORD, UserData.NAME);
         accessToken = steps.registerUser(user).checkRegisterUser();
     }
 
