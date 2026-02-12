@@ -12,8 +12,6 @@ import java.util.List;
 public class OrderForUserNegativeTest {
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
-//    private UserSteps userSteps = new UserSteps();
-//    private UserData userData = new UserData();
 
     String bunId;
     String mainId;

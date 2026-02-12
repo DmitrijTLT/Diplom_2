@@ -8,7 +8,6 @@ import org.junit.*;
 public class UserChangePositiveTest {
 
     private UserSteps steps = new UserSteps();
-//    private UserData userData = new UserData();
 
     public String accessToken;
     String email = UserData.EMAIL;

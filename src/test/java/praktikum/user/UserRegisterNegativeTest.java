@@ -10,7 +10,6 @@ public class UserRegisterNegativeTest {
     public String accessToken;
 
     private UserSteps steps = new UserSteps();
-//    private UserData userData = new UserData();
 
     // Проверяем, что нельзя зарегистрировать пользователя, если передать email, который уже используется
     @Test

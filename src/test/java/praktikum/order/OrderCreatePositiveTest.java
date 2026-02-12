@@ -15,7 +15,6 @@ public class OrderCreatePositiveTest {
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
     private UserSteps userSteps = new UserSteps();
-//    private UserData userData = new UserData();
     String email = UserData.EMAIL;
     String password = UserData.PASSWORD;
     String name = UserData.NAME;

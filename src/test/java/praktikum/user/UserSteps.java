@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 public class UserSteps {
 
     private UserApi userApi = new UserApi();
-//    private UserData userData = new UserData();
     private ValidatableResponse response;
 
     String messageUserAlreadyExists = "User already exists";

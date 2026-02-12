@@ -10,7 +10,6 @@ public class UserLoginPositiveTest {
     public String accessToken;
 
     private UserSteps steps = new UserSteps();
-//    private UserData userData = new UserData();
 
     // Регистрируем нового пользователя и получаем его токен
     @Before

@@ -10,7 +10,6 @@ public class UserRegisterPositiveTest {
     public String accessToken;
 
     private UserSteps steps = new UserSteps();
-//    private UserData userData = new UserData();
 
     @Test
     @DisplayName("Пользователь может зарегистрироваться с валидными данными")

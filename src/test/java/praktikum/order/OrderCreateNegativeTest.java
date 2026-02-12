@@ -15,7 +15,6 @@ public class OrderCreateNegativeTest {
     private List<String> ingredients;
     private OrderSteps orderSteps = new OrderSteps();
     private UserSteps userSteps = new UserSteps();
-//    private final UserData userData = new UserData();
     String email = UserData.EMAIL;
     String password = UserData.PASSWORD;
     String name = UserData.NAME;
@@ -36,7 +35,6 @@ public class OrderCreateNegativeTest {
         ingredients = Arrays.asList(bunId, mainId, sauceId);
     }
 
-    // Проверяем, что нельзя создать заказ без ингредиентов
     @Test
     @DisplayName("Невозможно создать заказ без ингредиентов")
     @Description("Проверка, что API возвращает ошибку при попытке создать заказ без указания ингредиентов")
@@ -45,7 +43,6 @@ public class OrderCreateNegativeTest {
         orderSteps.createOrder(order).checkNegativeCreateOrderWithoutIngredient();
     }
 
-    // Проверяем, что нельзя создать заказ с невалидным id ингредиента
     @Test
     @DisplayName("Невозможно создать заказ с невалидным id ингредиента")
     @Description("Проверка, что API возвращает ошибку при попытке создать заказ, содержащий ингредиент с несуществующим ID")

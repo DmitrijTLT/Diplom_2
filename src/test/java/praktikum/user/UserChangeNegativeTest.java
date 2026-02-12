@@ -8,7 +8,6 @@ import org.junit.*;
 public class UserChangeNegativeTest {
 
     private UserSteps steps = new UserSteps();
-//    private UserData userData = new UserData();
 
     public String accessTokenOne;
     public String accessTokenTwo;
